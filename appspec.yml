@@ -1,0 +1,16 @@
+version: 0.0
+os: linux
+
+files:
+  - source: /
+    destination: /var/www/upperstack-aws-main
+    overwrite: true
+hooks:
+  BeforeInstall:
+    - location: script/beforeinstall.sh
+      timeout: 300
+      runas: root
+  AfterInstall:
+    - location: script/afterinstall.sh
+      timeout: 900
+      runas: root

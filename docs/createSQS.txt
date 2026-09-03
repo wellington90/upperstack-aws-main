@@ -1,0 +1,33 @@
+Na AWS
+Criar SQS input:
+
+upperstack-orders-input
+Criar SQS output:
+
+upperstack-orders-processed
+Criar Lambda processor:
+
+Nome: upperstack-order-processor
+Runtime: Node.js 24.x ou Node.js 22.x
+Handler: index.handler
+Código: lambda/order-processor/index.mjs
+Env: SQS_OUTPUT_QUEUE_URL
+Criar Lambda intake:
+
+Nome: upperstack-order-intake
+Runtime: Node.js 24.x ou Node.js 22.x
+Handler: index.handler
+Código: lambda/order-intake/index.mjs
+Env: SQS_INPUT_QUEUE_URL, ORDER_PROCESSOR_ARN
+Atualizar .env da EC2:
+
+LAMBDA_INVOKE_ARN=<ARN order-intake>
+SQS_QUEUE_URL=<URL input>
+SQS_PROCESSED_QUEUE_URL=<URL output>
+AWS_REGION=<sua região>
+Garantir permissões da role da EC2:
+
+lambda:InvokeFunction
+sqs:SendMessage
+sqs:ReceiveMessage
+O README já lista essas permissões como necessárias para a EC2.
